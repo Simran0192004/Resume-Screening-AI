@@ -1,0 +1,18 @@
+# Virtual environments
+screenenv/
+venv/
+.venv/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Environment variables
+.env
+
+# OS files
+.DS_Store
+
+# User input files
+*.txt
+*.pdf
