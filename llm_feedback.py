@@ -1,41 +1,31 @@
-import google.generativeai as genai
 import os
+import google.generativeai as genai
 
-# Initialize Gemini client
-genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
 
-def generate_llm_feedback(
-    matched_skills,
-    missing_skills,
-    semantic_score,
-    role="the given job role"
-):
+def generate_llm_feedback(resume_text, job_description):
+    api_key = os.getenv("GEMINI_API_KEY")
+
+    if not api_key:
+        return "Gemini API key not found. Please configure it in Streamlit secrets."
+
+    genai.configure(api_key=api_key)
+
+    model = genai.GenerativeModel("gemini-pro")
+
     prompt = f"""
-You are an experienced technical recruiter.
+You are a professional technical recruiter.
 
-Job Role:
-{role}
+Analyze the resume against the job description and provide:
+1. Strengths
+2. Skill gaps
+3. Improvement suggestions
 
-Semantic Resume Match Score:
-{semantic_score:.1f}%
+Resume:
+{resume_text}
 
-Matched Skills:
-{', '.join(matched_skills) if matched_skills else 'None'}
-
-Missing Skills:
-{', '.join(missing_skills) if missing_skills else 'None'}
-
-Generate:
-1. A brief resume–job match summary
-2. Strengths of the candidate
-3. Skill gaps to focus on
-4. Practical, realistic improvement advice
-
-Keep the tone professional, encouraging, and realistic.
-Avoid buzzwords.
+Job Description:
+{job_description}
 """
 
-model = genai.GenerativeModel("gemini-1.5-flash")
-response = model.generate_content(prompt)
-
-return response.text.strip()
+    response = model.generate_content(prompt)
+    return response.text
