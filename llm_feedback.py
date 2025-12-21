@@ -1,10 +1,8 @@
-from google import genai
+import google.generativeai as genai
 import os
 
 # Initialize Gemini client
-client = genai.Client(
-    api_key=os.getenv("GEMINI_API_KEY")
-)
+genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
 
 def generate_llm_feedback(
     matched_skills,
@@ -37,9 +35,7 @@ Keep the tone professional, encouraging, and realistic.
 Avoid buzzwords.
 """
 
-    response = client.models.generate_content(
-        model="gemini-2.5-flash",
-        contents=prompt
-    )
+   model = genai.GenerativeModel("gemini-1.5-flash")
+    response = model.generate_content(prompt)
 
     return response.text.strip()
