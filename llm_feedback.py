@@ -35,7 +35,7 @@ Keep the tone professional, encouraging, and realistic.
 Avoid buzzwords.
 """
 
-   model = genai.GenerativeModel("gemini-1.5-flash")
-    response = model.generate_content(prompt)
+model = genai.GenerativeModel("gemini-1.5-flash")
+response = model.generate_content(prompt)
 
-    return response.text.strip()
+return response.text.strip()
