@@ -29,6 +29,16 @@ def clean_text(text):
     text = re.sub(r'[^a-zA-Z0-9\s]', ' ', text)
     return text
 
+ def extract_role(job_text):
+                lines = job_text.split('\n')
+                for line in lines[:10]:  # only scan top section
+                    if any(keyword in line.lower() for keyword in [
+                        'engineer', 'developer', 'scientist', 'analyst',
+                        'intern', 'manager', 'researcher'
+                    ]):
+                        return line.strip()
+                return "the given role"
+
 # -------------------------------------
 # Skill Extraction
 # -------------------------------------
@@ -73,7 +83,7 @@ if "analysis_done" not in st.session_state:
 # Analysis Logic
 # -------------------------------------
 if analyze:
-
+    role = extract_role(job_text)
     if resume_file is None or job_text.strip() == "":
         st.warning("Please upload a resume and paste a job description.")
     else:
@@ -112,10 +122,8 @@ if analyze:
 
             # LLM feedback
             llm_feedback = generate_llm_feedback(
-                matched_skills=matched_skills,
-                missing_skills=missing_skills,
-                semantic_score=skill_match_percent,
-                role="Software Engineer"
+               resume_text=llm_resume_context,
+               job_description=job_text
             )
 
             # Store in session state
@@ -133,6 +141,9 @@ if st.session_state.analysis_done:
 
     st.divider()
     st.header("📊 Screening Results")
+
+    st.subheader("🎯 Target Role")
+    st.info(role)
 
     # Match Score
     st.subheader("Resume–Job Match Score")
