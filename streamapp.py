@@ -120,6 +120,23 @@ if analyze:
                 len(matched_skills) / len(jd_skills) * 100
             ) if jd_skills else 0
 
+            # -------------------------------------
+            # LLM Context Construction
+            # -------------------------------------
+            llm_resume_context = f"""
+            Role Applied For: {role}
+
+            Semantic Similarity Score: {similarity_score:.2f}%
+
+            Skill Match Percentage: {skill_match_percent:.2f}%    
+
+            Matched Skills:
+            {', '.join(matched_skills) if matched_skills else 'None'}
+
+            Missing Skills:
+            {', '.join(missing_skills) if missing_skills else 'None'}
+            """
+
             # LLM feedback
             llm_feedback = generate_llm_feedback(
                resume_text=llm_resume_context,
