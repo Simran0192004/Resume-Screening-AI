@@ -1,8 +1,12 @@
 import os
 import google.generativeai as genai
 
-# Configure Gemini
-genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
+API_KEY = os.getenv("GEMINI_API_KEY")
+
+if not API_KEY:
+    raise RuntimeError("GEMINI_API_KEY is missing. Check Streamlit Secrets.")
+
+genai.configure(api_key=API_KEY)
 
 def generate_llm_feedback(resume_text, job_description):
     model = genai.GenerativeModel("gemini-1.5-flash")
@@ -20,9 +24,10 @@ Resume:
 
 Job Description:
 {job_description}
-
-Keep the tone concise, practical, and realistic.
 """
 
-    response = model.generate_content(prompt)
-    return response.text
+    try:
+        response = model.generate_content(prompt)
+        return response.text
+    except Exception as e:
+        return f"⚠️ LLM Error: {str(e)}"
