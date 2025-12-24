@@ -30,14 +30,14 @@ def clean_text(text):
     return text
 
  def extract_role(job_text):
-                lines = job_text.split('\n')
-                for line in lines[:10]:  # only scan top section
-                    if any(keyword in line.lower() for keyword in [
-                        'engineer', 'developer', 'scientist', 'analyst',
-                        'intern', 'manager', 'researcher'
-                    ]):
-                        return line.strip()
-                return "the given role"
+    lines = job_text.split('\n')
+    for line in lines[:10]:  # only scan top section
+        if any(keyword in line.lower() for keyword in [
+                'engineer', 'developer', 'scientist', 'analyst',
+                'intern', 'manager', 'researcher'
+        ]):
+            return line.strip()
+    return "the given role"
 
 # -------------------------------------
 # Skill Extraction
