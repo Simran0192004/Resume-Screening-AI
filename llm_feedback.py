@@ -1,16 +1,10 @@
 import os
 import google.generativeai as genai
 
+genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
 
 def generate_llm_feedback(resume_text, job_description):
-    api_key = os.getenv("GEMINI_API_KEY")
-
-    if not api_key:
-        return "Gemini API key not found. Please configure it in Streamlit secrets."
-
-    genai.configure(api_key=api_key)
-
-    model = genai.GenerativeModel("gemini-pro")
+    model = genai.GenerativeModel("gemini-3-pro-preview")
 
     prompt = f"""
 You are a professional technical recruiter.
