@@ -5,7 +5,6 @@ import re
 from sentence_transformers import SentenceTransformer, util
 from llm_feedback import generate_llm_feedback
 
-nltk.download('stopwords')
 
 # -------------------------------------
 # Page Config
