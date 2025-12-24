@@ -9,7 +9,7 @@ if not API_KEY:
 genai.configure(api_key=API_KEY)
 
 def generate_llm_feedback(resume_text, job_description):
-    model = genai.GenerativeModel("gemini-1.5-flash")
+    model = genai.GenerativeModel("gemini-pro")
 
     prompt = f"""
 You are a professional technical recruiter.
