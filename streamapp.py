@@ -29,7 +29,7 @@ def clean_text(text):
     text = re.sub(r'[^a-zA-Z0-9\s]', ' ', text)
     return text
 
- def extract_role(job_text):
+def extract_role(job_text):
     lines = job_text.split('\n')
     for line in lines[:10]:  # only scan top section
         if any(keyword in line.lower() for keyword in [
